@@ -10,12 +10,17 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
-const corsOpts = {
-  origin: false,
-};
+// const corsOpts = {
+//   origin: false,
+// };
 
 app.use(express.json());
-app.use(cors(corsOpts));
+app.use(cors());
+
+app.use(function (req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  next();
+});
 
 app.use('/familymembers', router);
 
