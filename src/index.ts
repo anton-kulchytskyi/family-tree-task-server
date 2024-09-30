@@ -11,7 +11,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.use('/', router);
+app.use('/familymembers', router);
 
 db.then(() => {
   app.listen(port, () => {
