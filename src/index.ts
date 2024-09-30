@@ -10,8 +10,16 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
+const corsOpts = {
+  origin: '*',
+
+  methods: ['GET', 'POST'],
+
+  allowedHeaders: ['Content-Type'],
+};
+
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOpts));
 
 app.use('/familymembers', router);
 
