@@ -1,4 +1,5 @@
 import express, { Express, Request, Response } from 'express';
+import cors from 'cors';
 import dotenv from 'dotenv';
 
 import db from './db';
@@ -10,6 +11,7 @@ const app: Express = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(cors());
 
 app.use('/familymembers', router);
 
