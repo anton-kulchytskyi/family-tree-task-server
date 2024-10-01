@@ -1,6 +1,19 @@
+import { Condition, ObjectId } from 'mongoose';
 import FamilyMember from '../models/FamilyMember';
+
 export class FamilyMemberService {
-  //create a FamilyMember
+  async getFamilyMemberByName(name: string) {
+    try {
+      const familyMember = await FamilyMember.collection.findOne({
+        name: name,
+      });
+
+      return familyMember;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async createFamilyMember(data: any) {
     try {
       const newMember = await FamilyMember.create(data);
@@ -10,7 +23,6 @@ export class FamilyMemberService {
     }
   }
 
-  //get all posts
   async getFamilyMembers() {
     try {
       const members = await FamilyMember.find({});
@@ -20,7 +32,6 @@ export class FamilyMemberService {
     }
   }
 
-  //get a single post
   async getFamilyMember(id: string) {
     try {
       const member = await FamilyMember.findById({ _id: id });
@@ -33,12 +44,28 @@ export class FamilyMemberService {
     }
   }
 
-  //update a post
+  // update children and parents arrays
+  async updateChildrenAndParentArrays(
+    parent_id: Condition<ObjectId>,
+    child_id: Condition<ObjectId>
+  ) {
+    try {
+      await FamilyMember.collection.updateOne(
+        { _id: parent_id },
+        { $push: { children: child_id } }
+      );
+      const childMember = await FamilyMember.collection.updateOne(
+        { _id: child_id },
+        { $push: { parents: parent_id } }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //update member's name and age
   async updateFamilyMember(id: string, data: any) {
     try {
-      //pass the id of the object you want to update
-      //data is for the new body you are updating the old one with
-      //new:true, so the dats being returned, is the update one
       const member = await FamilyMember.findByIdAndUpdate({ _id: id }, data, {
         new: true,
       });
@@ -51,7 +78,6 @@ export class FamilyMemberService {
     }
   }
 
-  //delete a post by using the find by id and delete
   async deleteFamilyMember(id: string) {
     try {
       const member = await FamilyMember.findByIdAndDelete(id);
@@ -64,7 +90,6 @@ export class FamilyMemberService {
   }
 }
 
-//export the class
 const FamilyMemberServices = new FamilyMemberService();
 
 export default FamilyMemberServices;
