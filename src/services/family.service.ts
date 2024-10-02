@@ -25,7 +25,9 @@ export class FamilyMemberService {
 
   async getFamilyMembers() {
     try {
-      const members = await FamilyMember.find({});
+      const members = await FamilyMember.find({})
+        .populate('children')
+        .populate('parents');
       return members;
     } catch (error) {
       console.log(error);

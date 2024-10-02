@@ -3,8 +3,8 @@ import mongoose from 'mongoose';
 interface IFamilyMemberSchema {
   name: string;
   age: string;
-  parents: string[];
-  children: string[];
+  parents: mongoose.Types.ObjectId[];
+  children: mongoose.Types.ObjectId[];
 }
 
 const FamilyMemberSchema = new mongoose.Schema({
@@ -17,8 +17,8 @@ const FamilyMemberSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  parents: [String],
-  children: [String],
+  parents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'FamilyMember' }],
+  children: [{ type: mongoose.Schema.Types.ObjectId, ref: 'FamilyMember' }],
 });
 
 const FamilyMember = mongoose.model<IFamilyMemberSchema>(
