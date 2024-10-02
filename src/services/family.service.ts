@@ -23,6 +23,24 @@ export class FamilyMemberService {
     }
   }
 
+  async getRootMember() {
+    try {
+      const root = await FamilyMember.findOne({ parents: [] }).populate(
+        'children'
+      );
+
+      if (!root) {
+        console.log('Root member not found');
+        return null;
+      }
+
+      return root;
+    } catch (error) {
+      console.error('Error building family tree:', error);
+      return null;
+    }
+  }
+
   async getFamilyMembers() {
     try {
       const members = await FamilyMember.find({})

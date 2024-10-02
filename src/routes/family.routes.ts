@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.post('/', FamilyController.addMeber);
 router.get('/', FamilyController.getMemebers);
+router.get('/root', FamilyController.getRootMember);
 router.get('/:id', FamilyController.getOneMember);
 router.put('/:id', FamilyController.updateMember);
 router.delete('/:id', FamilyController.deleteMember);

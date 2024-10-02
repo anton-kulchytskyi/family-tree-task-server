@@ -33,6 +33,11 @@ class familyController {
     }
   };
 
+  getRootMember = async (req: Request, res: Response) => {
+    const members = await FamilyMemberServices.getRootMember();
+    res.send(members);
+  };
+
   //get all family members
   getMemebers = async (req: Request, res: Response) => {
     const members = await FamilyMemberServices.getFamilyMembers();
