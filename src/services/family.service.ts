@@ -34,9 +34,9 @@ export class FamilyMemberService {
         return null;
       }
 
-      return root;
+      return root.children;
     } catch (error) {
-      console.error('Error building family tree:', error);
+      console.error('Root member not found:', error);
       return null;
     }
   }
