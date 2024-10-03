@@ -61,8 +61,8 @@ class familyController {
   //delete a member
   deleteMember = async (req: Request, res: Response) => {
     const id = req.params.id;
-    await FamilyMemberServices.deleteFamilyMember(id);
-    res.send('post deleted');
+    const deletedmember = await FamilyMemberServices.deleteFamilyMember(id);
+    res.status(202).send(deletedmember);
   };
 }
 

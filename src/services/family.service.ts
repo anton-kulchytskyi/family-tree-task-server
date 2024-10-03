@@ -90,7 +90,7 @@ export class FamilyMemberService {
         new: true,
       });
       if (!member) {
-        return 'post not available';
+        return 'member not available';
       }
       return member;
     } catch (error) {
@@ -100,10 +100,19 @@ export class FamilyMemberService {
 
   async deleteFamilyMember(id: string) {
     try {
-      const member = await FamilyMember.findByIdAndDelete(id);
-      if (!member) {
-        return 'post not available';
+      const child = await FamilyMember.findById(id);
+      let fatherId;
+      if (child) {
+        fatherId = child.parents[0];
       }
+      await FamilyMember.updateOne(
+        { _id: fatherId },
+        { $pull: { children: id } }
+      );
+
+      await FamilyMember.findByIdAndDelete(id);
+
+      return child;
     } catch (error) {
       console.log(error);
     }
